@@ -12,6 +12,14 @@ const User_agent_schema = new mongoose_1.default.Schema({
     number: {
         type: Number,
         require: true
+    },
+    isDeleted: {
+        type: Boolean
+    },
+    deletedAt: {
+        type: Date
     }
 });
+// const User_agents =  mongoose.model("Chicken", User_agent_schema);
+// module.exports = { User_agents }
 exports.default = mongoose_1.default.model("User_agents", User_agent_schema);

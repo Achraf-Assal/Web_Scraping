@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Search = exports.Update = exports.Delete = exports.Store = exports.Show = exports.Index = void 0;
+exports.Deleted = exports.SoftDelete = exports.Search = exports.Update = exports.Delete = exports.Store = exports.Show = exports.Index = void 0;
 const User_agent_1 = __importDefault(require("../models/User_agent"));
 const mongo = require('mongodb');
 const Index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userAgents = yield User_agent_1.default.find();
+        const userAgents = yield User_agent_1.default.find({ isDeleted: false });
         if (userAgents.length > 0) {
             res.status(200).json({ message: " user agent's has been load succasfuly ",
                 "User Agents": userAgents
@@ -35,7 +35,7 @@ exports.Index = Index;
 const Show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
-        const userAgent = yield User_agent_1.default.findById(id);
+        const userAgent = yield User_agent_1.default.find({ _id: id, isDeleted: false });
         if (userAgent) {
             res.status(200).json({ message: " user agent has been load succasfuly ",
                 "User Agents": userAgent
@@ -131,3 +131,41 @@ const Search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Search = Search;
+const SoftDelete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        let currentDate = new Date();
+        const date = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+        const data = { isDeleted: true, deletedAt: date };
+        const userAgent = yield User_agent_1.default.findById(id);
+        if (userAgent) {
+            const updatedAgent = yield User_agent_1.default.findByIdAndUpdate(id, data, { new: true });
+            res.status(200).json({ message: ` user with the id: ${id} has been deleted `,
+                Updated_user_agent: updatedAgent });
+        }
+        else {
+            res.status(401).json({ error: `no user agent with the id : ${id}` });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ error: "internal server error" });
+    }
+});
+exports.SoftDelete = SoftDelete;
+const Deleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userAgents = yield User_agent_1.default.find({ isDeleted: true });
+        if (userAgents.length > 0) {
+            res.status(200).json({ message: " deleted user agent's has been load succasfuly ",
+                "User Agents": userAgents
+            });
+        }
+        else {
+            res.status(401).json({ message: " no deleted agents found " });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ error: "internal server error" });
+    }
+});
+exports.Deleted = Deleted;
