@@ -30,7 +30,7 @@ export const checkUser = async (req: any, res: any, next: any) => {
         const secretKey: String = process.env.TOKEN_KEY as String;
         const token = req.cookies.jwt;
         if (token) {
-            await jwt.verify(token, "Achraf_BodyGard7-I-WANT/4_WS+9568", async (err: any, decodedToken: any) => {
+            await jwt.verify(token,secretKey, async (err: any, decodedToken: any) => {
                 if (err) {
                     res.locals.user = null;
                     next();
