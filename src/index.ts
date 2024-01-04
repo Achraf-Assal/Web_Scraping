@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from 'dotenv';
 import UserAgentRoute from "./routes/TestRout";
 import UserRoute from "./routes/UserRouts";
-import { requireAuth } from "./middleware/AuthMiddleware";
+import { requireAuth ,checkUser } from "./middleware/AuthMiddleware";
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -35,6 +35,8 @@ mongoose.connect(MongoUrl as string)
     })
     .catch((err: any)=>console.log(err))
 
+
+    app.get("*",checkUser);
     // routes
     app.get('/', (req, res) => res.render('home'));
     app.get('/smoothies',requireAuth, (req, res) => res.render('smoothies'));

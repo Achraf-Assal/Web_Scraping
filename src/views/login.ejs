@@ -27,8 +27,6 @@
         // get values
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email);
-        console.log(password);
         try {
           const res = await fetch('http://localhost:5000/api/user/login', {
             method: 'POST',

@@ -49,17 +49,15 @@ User_schema.pre('save', function (next) {
 User_schema.statics.login = function (email, password) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const user = yield this.findOne({ email });
-                (0, CompareHandler_1.comparePasswor)(password, user).then((user) => {
-                    resolve(user);
-                }).catch((err) => {
-                    throw Error(err.message);
+            const user = yield this.findOne({ email });
+            (0, CompareHandler_1.comparePasswor)(password, user).then((user) => {
+                resolve(user);
+            }).catch((err) => {
+                reject({
+                    error: err.error,
+                    statusCode: 401
                 });
-            }
-            catch (error) {
-                throw Error(error.message);
-            }
+            });
         }));
     });
 };

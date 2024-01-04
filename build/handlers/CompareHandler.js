@@ -8,7 +8,10 @@ function comparePasswor(password, user) {
             bcrypt.compare(password, user.password, (err, result) => {
                 if (result == false) {
                     console.log("incorrect password");
-                    reject(new Error("incorrect password"));
+                    reject({
+                        error: new Error("incorrect password"),
+                        statusCode: 401
+                    });
                 }
                 else {
                     resolve(user);
@@ -17,7 +20,10 @@ function comparePasswor(password, user) {
         }
         else {
             console.log("incorrect email");
-            reject(new Error("incorrect email"));
+            reject({
+                error: new Error("Incorrect email"),
+                statusCode: 401
+            });
         }
     });
 }

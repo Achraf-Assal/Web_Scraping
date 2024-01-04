@@ -34,6 +34,7 @@ mongoose_1.default.connect(MongoUrl)
     });
 })
     .catch((err) => console.log(err));
+app.get("*", AuthMiddleware_1.checkUser);
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', AuthMiddleware_1.requireAuth, (req, res) => res.render('smoothies'));

@@ -8,4 +8,5 @@ const AuthController_1 = require("../controller/AuthController");
 const UserRoute = express_1.default.Router();
 UserRoute.post("/signup", AuthController_1.SignUp);
 UserRoute.post("/login", AuthController_1.Login);
+UserRoute.get("/logout", AuthController_1.Logout);
 exports.default = UserRoute;

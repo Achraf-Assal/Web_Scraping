@@ -42,11 +42,11 @@ export const Login = async (req : any,res : any)=>{
         });
         
         let token = HandelTokenCreation(user._id,3);
-        console.log(token);
              res.cookie('jwt',token,{httpOnly:true,maxAge:3*day*1000});
         let succasMSG = {message: " user has been login ",
              "User":user.email};
             SuccasHandler(succasMSG,200,res);
+            
     } catch (error:any) {
         ErrorHandler({ 
             message: "Authentication failed",
@@ -55,3 +55,11 @@ export const Login = async (req : any,res : any)=>{
     }
 }
 
+export const Logout = (req : any,res : any)=>{
+    try {
+        res.cookie('jwt', '', { maxAge: 1 });
+        res.redirect('/');
+    } catch (error) {
+        
+    }
+}

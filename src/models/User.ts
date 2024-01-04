@@ -52,16 +52,16 @@ User_schema.pre<IUserDocument>('save', async function (next: any) {
 
 User_schema.statics.login = async function (email: string, password: string) {
     return new Promise(async (resolve: any, reject: any) => {
-        try {
+
             const user = await this.findOne({ email });
             comparePasswor(password, user).then((user: any) => {
                 resolve(user);
             }).catch((err: any) => {
-                throw Error(err.message);
+                reject({
+                     error:err.error,
+                     statusCode: 401
+                });
             })
-        } catch (error:any) {
-            throw Error(error.message);
-        }
     });
 
 };

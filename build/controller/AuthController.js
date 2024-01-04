@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Login = exports.SignUp = void 0;
+exports.Logout = exports.Login = exports.SignUp = void 0;
 const User_1 = __importDefault(require("../models/User"));
 const ResponsHandler_1 = require("../handlers/ResponsHandler");
 const ValidationHandler_1 = require("../handlers/ValidationHandler");
@@ -54,7 +54,6 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             throw err;
         });
         let token = (0, TokenHandler_1.HandelTokenCreation)(user._id, 3);
-        console.log(token);
         res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * GlobalVar_1.day * 1000 });
         let succasMSG = { message: " user has been login ",
             "User": user.email };
@@ -68,3 +67,12 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Login = Login;
+const Logout = (req, res) => {
+    try {
+        res.cookie('jwt', '', { maxAge: 1 });
+        res.redirect('/');
+    }
+    catch (error) {
+    }
+};
+exports.Logout = Logout;
