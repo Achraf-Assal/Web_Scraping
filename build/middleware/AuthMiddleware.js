@@ -45,7 +45,7 @@ const checkUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const secretKey = process.env.TOKEN_KEY;
         const token = req.cookies.jwt;
         if (token) {
-            yield jwt.verify(token, "Achraf_BodyGard7-I-WANT/4_WS+9568", (err, decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
+            yield jwt.verify(token, secretKey, (err, decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
                 if (err) {
                     res.locals.user = null;
                     next();

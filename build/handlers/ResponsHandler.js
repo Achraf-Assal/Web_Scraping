@@ -5,7 +5,7 @@ const ErrorHandler = (errorMsg, errorState, res) => {
     res.status(errorState).json(errorMsg);
 };
 exports.ErrorHandler = ErrorHandler;
-const SuccasHandler = (errorMsg, errorState, res) => {
-    res.status(errorState).json(errorMsg);
+const SuccasHandler = (succasMsg, succasState, res) => {
+    res.status(succasState).json(succasMsg);
 };
 exports.SuccasHandler = SuccasHandler;

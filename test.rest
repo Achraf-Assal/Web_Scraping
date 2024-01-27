@@ -74,3 +74,5 @@ Content-Type: application/json
      "password":"123456789"
 }
 ###
+GET http://localhost:5000/api/scrap/product?use_agent=true  HTTP/1.1
+###

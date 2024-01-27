@@ -87,19 +87,14 @@ export const Update = async (req:any,res:any)=>{
 
 export const Search= async (req:any, res:any) => {
     try {
-        // We destructure the req.query object to get the page and limit variables from url 
-        // const { page = 1, limit = 10 } = req.query;
         var page = 1 ;
         var limit = 3 ;
-        const userAgents = await User_agent.find()
-            // We multiply the "limit" variables by one just to make sure we pass a number and not a string
+        var searchKeyWord = req.body.keyword;
+        const userAgents = await User_agent.find({agent:new RegExp("^" + searchKeyWord, "i")})
             .limit(limit * 1)
-            // I don't think i need to explain the math here
             .skip((page - 1) * limit)
-            // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
             .sort({ createdAt: -1 })
 
-        // Getting the numbers of userAgents  stored in database
         const count = await User_agent.countDocuments();
 
         return res.status(200).json({

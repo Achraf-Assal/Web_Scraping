@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const cheerio_1 = __importDefault(require("cheerio"));
-const mongodb_conect_1 = __importDefault(require("./database/mongodb_conect"));
 const app = (0, express_1.default)();
 const port = 3000;
 app.get('/scrape', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,12 +28,9 @@ app.get('/scrape', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         };
         const response = yield axios_1.default.get(url, config);
         const $ = cheerio_1.default.load(response.data);
-        $('.form-control.ua-textarea').each((index, element) => {
-            const userAgentTextareaContent = $(element).text();
-            if (userAgentTextareaContent) {
-                mongodb_conect_1.default.collection('User_agents').insertOne({ "User_agent": userAgentTextareaContent });
-            }
-        });
+        const imageDiv = $('.images--imageWindow--1Z-J9gn');
+        // Extract the image URLs
+        const imageUrls = imageDiv.find('img').map((index, element) => $(element).attr('src')).get();
     }
     catch (error) {
         console.error('Error:', error);

@@ -18,13 +18,11 @@ app.get('/scrape', async (req, res) => {
     const response = await axios.get(url,config);
     const $ = cheerio.load(response.data);
      
-    $('.form-control.ua-textarea').each((index, element) => {
-      const userAgentTextareaContent = $(element).text();
-      if (userAgentTextareaContent) {
-         mongoose.collection('User_agents').insertOne({ "User_agent" :  userAgentTextareaContent});
-      }
-    });
+    const imageDiv = $('.images--imageWindow--1Z-J9gn');
 
+    // Extract the image URLs
+    const imageUrls = imageDiv.find('img').map((index, element) => $(element).attr('src')).get();
+    
     
   } catch (error) {
     console.error('Error:', error);

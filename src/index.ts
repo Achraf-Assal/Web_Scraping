@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from 'dotenv';
 import UserAgentRoute from "./routes/TestRout";
 import UserRoute from "./routes/UserRouts";
+import ProductRoute from "./routes/ScrapProductRout"
 import { requireAuth ,checkUser } from "./middleware/AuthMiddleware";
 const cookieParser = require('cookie-parser');
 
@@ -33,4 +34,7 @@ mongoose.connect(MongoUrl as string)
     app.get("*",checkUser);
     // routes
     app.use("/api/user-agent",UserAgentRoute);
+    // auth routes
     app.use("/api/user",UserRoute);
+    // scrape product routes
+    app.use("/api/scrap",ProductRoute);
